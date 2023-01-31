@@ -6,32 +6,14 @@ import NavBar from "@/components/Navigation/Navbar";
 import MainAfisha from "@/components/Afisha/MainAfisha";
 import axios from "axios";
 
-export async function getServerSideProps({req, res}: any){
+
+export const getInitialProps = async () => {
     //Часть 1 - аутентификация
     //отправляем запрос на сервер
-    const answer = await axios(`http://localhost:2222/api/login`, {
-        method: "GET",
-        withCredentials: true,
-        headers: {
-            'Access-Control-Allow-Credentials': true,
-            Cookie: req!.headers.cookie
-        }
-    });
-    //Отдаем куки браузеру
-    //пробрасываем пользователю куки с аутентификацией
-    if (answer.headers["set-cookie"]) {
-        res.setHeader('Set-Cookie', answer.headers["set-cookie"]);
-    }
+    const answer = await axios.get(`http://localhost:2222/api/login`, {withCredentials: true});
     //Часть 2 - получение постов
-    const answerPosts = await axios(`http://localhost:2222/api/getAllPosts`, {
-        method: "GET",
-        withCredentials: true,
-        headers: {
-            'Access-Control-Allow-Credentials': true,
-            Cookie: req!.headers.cookie || answer.headers["set-cookie"]
-        }
-    });
-    const answerData = answerPosts.data || [];
+    const answerPosts = await axios.get(`http://localhost:2222/api/getAllPosts`, {withCredentials: true,});
+    const answerData = answerPosts.data || [{author: 'pisa', text: 'sad'}];
     //Возвращаем пропс с постами
     return {
         props: {

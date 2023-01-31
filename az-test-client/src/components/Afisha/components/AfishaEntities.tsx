@@ -1,7 +1,8 @@
 //Функция-компонент, ответственная за вывод списка постов
 import styles from '../Afisha.module.sass'
 export default function AfishaEntities({posts}: IAfishaList) {
-    //Создаем массив с
+    if(!posts) return <span className={styles.AfishaEntities}>Добавьте новый пост</span>
+    //Создаем массив
     const AfishaList = posts.reverse().map(item => {
         return (
             <div key={item.text} className={styles.PostContainer}>

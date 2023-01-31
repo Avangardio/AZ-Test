@@ -24,6 +24,7 @@ let ApiController = class ApiController {
         this.appService = appService;
     }
     login_controller(request, response) {
+        console.log(12);
         if (!request.cookies.account) {
             const uuid = (0, crypto_1.randomUUID)();
             response.cookie('account', uuid, {
@@ -49,6 +50,7 @@ let ApiController = class ApiController {
     }
     ;
     getAllPosts_controller(request) {
+        console.log(request.body.account);
         return this.appService.getAllPosts_service(request.body.account);
     }
 };

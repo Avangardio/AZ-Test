@@ -17,6 +17,8 @@ export class ApiController {
     //Метод класса контроллера для логина пользователей
     login_controller(@Request() request, @Response() response): void {
         //проверяем, нет ли у пользователя куки с аккаунтом
+        console.log(12)
+
         if(!request.cookies.account) {
             //Создаем случайный айди
             const uuid = randomUUID();
@@ -67,6 +69,7 @@ export class ApiController {
     @Get('getAllPosts')
     //Метод контроллера, ответственный за обработку жндпоинат получения постов
     getAllPosts_controller(@Request() request): IAfishaUnit[] {
+        console.log(request.body.account)
         //Вызываем метод сервиса и возвращаем результат вывода
         return this.appService.getAllPosts_service(request.body.account);
     }
