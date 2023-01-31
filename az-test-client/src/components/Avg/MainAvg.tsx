@@ -7,9 +7,9 @@ export default function MainAvg(){
     const [records, setRecords] = useState<Icalculated[]>([]);
 
      return (
-         <div>
+         <>
             <AvgForm records={records} updateRecords={setRecords} />
             <AvgTable records={records} updateRecords={setRecords} />
-         </div>
+         </>
      )
 }

@@ -4,7 +4,9 @@ import { Injectable } from '@nestjs/common';
 //класс апи сервиса
 export class ApiService {
     //определяем переменную с данными пользователей
-    private usersAvg: IusersAvg = {};
+    public usersAvg: IusersAvg = {};
+    //определяем переменную с постами пользователей
+    public usersPosts: IAfishaList = {};
     //метод класса для обработки
     avgNumber(data: INubmerUnit[]): Icalculated {
         //функция для обработки со знаком
@@ -27,7 +29,6 @@ export class ApiService {
             ) : null
         };
     }
-
     //метод класса для обработки добавления данных
     addNumber_service(data: IaddNumber): INubmerUnit {
         //если число некорректно, возвращаем нуль
@@ -71,4 +72,26 @@ export class ApiService {
         //возвращаем вычисления
         return calculated;
         }
+
+
+    //Метод класса для добавления нового поста
+    addNewPost_service(data: IAddNewPost, newUser: boolean): string{
+        //Деструктурируем объект поста
+        const {author, text} = data.post;
+        //Если есть флаг у нового пользователя, то добавляем запись и туда пост
+        if(newUser) {
+            this.usersPosts[data.userId] = [{author, text}];
+            return 'OK'
+        };
+        //Просто добавляем запись
+        this.usersPosts[data.userId].push({author, text});
+        //Возвращаем ок
+        return 'OK';
+    }
+    //Метод класса для получения всех существующих постов
+    getAllPosts_service(userId: string) {
+        //Возвращаем массив постов
+        return this.usersPosts[userId];
+    }
+
 }

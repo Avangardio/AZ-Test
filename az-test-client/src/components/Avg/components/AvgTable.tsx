@@ -1,7 +1,7 @@
 //Интерфейс для стейта
 import {useEffect} from "react";
 import axios from "axios";
-
+import styles from '../styles/Avg.module.sass'
 //Функция-компонент, ответственная за вывод списка вычислений
 export default function AvgTable({records, updateRecords}: IAvgFormProps) {
     //Добавляем эффект при загрузке ДОМА
@@ -18,11 +18,11 @@ export default function AvgTable({records, updateRecords}: IAvgFormProps) {
                 error => console.log(error)
             )
     }, []);
-    if(records.length === 0) return <span>Добавьте новые числа</span>
+    if(records.length === 0) return <span className={styles.AvgEntities}>Добавьте новые числа</span>
     //обрабатываем родительский стейт записей
-    const elements = records.map(item => {
+    const elements = [...records].reverse().map(item => {
         return (
-            <tr>
+            <tr key={Math.random()}>
                 <td>{item.firstNumber}</td>
                 <td>{item.secondNumber}</td>
                 <td>{item.avg}</td>
@@ -31,8 +31,11 @@ export default function AvgTable({records, updateRecords}: IAvgFormProps) {
     });
     //Возвращаем таблицу
     return (
-        <table>
+        <table className={styles.AvgEntities}>
             <tbody>
+                <th>Первое число</th>
+                <th>Второе число</th>
+                <th>Среднее</th>
                 {elements}
             </tbody>
         </table>

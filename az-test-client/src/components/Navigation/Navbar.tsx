@@ -18,6 +18,7 @@ export default function NavBar() {
         <div className={styles.NavBar} data-testid={'NavBar'}>
             <span className={styles.NavBarOption} data-link={'/'} onClick={handleClick}>Записи</span>
             <span className={styles.NavBarOption} data-link={'/avg'} onClick={handleClick}>Среднее</span>
+            <span className={styles.NavBarOption} data-link={'https://github.com/Avangardio/AZ-Test'} onClick={handleClick}>GitHub</span>
         </div>
     )
 }

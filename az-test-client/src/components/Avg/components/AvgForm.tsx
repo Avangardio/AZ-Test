@@ -1,6 +1,7 @@
 //Функция-компонент, ответственная за вывод формы добавления числа и отправкой запросов
 import {useState} from "react";
 import axios from "axios";
+import styles from '../styles/Avg.module.sass'
 
 export default function AvgForm({records, updateRecords}: IAvgFormProps) {
     //Определяем стейт для формы
@@ -35,7 +36,10 @@ export default function AvgForm({records, updateRecords}: IAvgFormProps) {
             )
     };
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            className={styles.AvgForm}
+            onSubmit={handleSubmit}>
+            <p>
             <input
                 value={formValue.number}
                 name={'number'}
@@ -43,24 +47,29 @@ export default function AvgForm({records, updateRecords}: IAvgFormProps) {
                 onChange={handleChange}
                 required={true}
             />
-            <label >
-                Отрицательное?
-                <input
-                type={"checkbox"}
-                name={'negative'}
-                checked={formValue.negative}
-                onChange={handleChange}
-                />
-            </label>
-            <label>
-                Целое?
-                <input
-                    type={"checkbox"}
-                    name={'float'}
-                    checked={formValue.float}
-                    onChange={handleChange}
-                />
-            </label>
+            </p>
+            <p>
+                <label >
+                    Отрицательное?
+                    <input
+                        type={"checkbox"}
+                        name={'negative'}
+                        checked={formValue.negative}
+                        onChange={handleChange}
+                    />
+                </label>
+            </p>
+            <p>
+                <label>
+                    Целое?
+                    <input
+                        type={"checkbox"}
+                        name={'float'}
+                        checked={formValue.float}
+                        onChange={handleChange}
+                    />
+                </label>
+            </p>
             <input
                 type={'submit'}
                 value={'Отправить'}

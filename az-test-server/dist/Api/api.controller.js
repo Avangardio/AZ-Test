@@ -18,6 +18,7 @@ const api_service_1 = require("./api.service");
 const crypto_1 = require("crypto");
 const NumberJoi_1 = require("../Pipes/Jois/NumberJoi");
 const joiValidationPipe_1 = require("../Pipes/joiValidationPipe");
+const PostsJoi_1 = require("../Pipes/Jois/PostsJoi");
 let ApiController = class ApiController {
     constructor(appService) {
         this.appService = appService;
@@ -30,7 +31,10 @@ let ApiController = class ApiController {
                 httpOnly: true,
                 path: '/'
             });
+            const newPostBody = { author: 'Я - новый автор', text: 'Текст, текст и еще раз текст...' };
+            this.appService.addNewPost_service({ userId: uuid, post: newPostBody }, true);
         }
+        ;
         response.status(200).send('OK');
     }
     addNumber_controller(body, request, response) {
@@ -39,6 +43,13 @@ let ApiController = class ApiController {
     }
     allCalculations_controller(request, query) {
         return this.appService.allCalculations_service(query.user || request.body.account);
+    }
+    addNewPost_controller(body, request) {
+        return this.appService.addNewPost_service({ userId: request.body.account, post: body.post }, false);
+    }
+    ;
+    getAllPosts_controller(request) {
+        return this.appService.getAllPosts_service(request.body.account);
     }
 };
 __decorate([
@@ -66,6 +77,21 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Object)
 ], ApiController.prototype, "allCalculations_controller", null);
+__decorate([
+    (0, common_1.Post)('addNewPost'),
+    __param(0, (0, common_1.Body)(new joiValidationPipe_1.JoiValidationPipe(PostsJoi_1.PostScheme))),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", String)
+], ApiController.prototype, "addNewPost_controller", null);
+__decorate([
+    (0, common_1.Get)('getAllPosts'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Array)
+], ApiController.prototype, "getAllPosts_controller", null);
 ApiController = __decorate([
     (0, common_1.Controller)('api'),
     __metadata("design:paramtypes", [api_service_1.ApiService])

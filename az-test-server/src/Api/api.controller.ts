@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import {randomUUID} from "crypto";
 import {addNumberScheme} from "../Pipes/Jois/NumberJoi";
 import {JoiValidationPipe} from "../Pipes/joiValidationPipe";
+import {PostScheme} from "../Pipes/Jois/PostsJoi";
 
 //Интерфейс для эндпоинта добавления номера
 interface IaddNumberBody extends INubmerUnit{}
@@ -25,7 +26,12 @@ export class ApiController {
                 httpOnly: true,
                 path: '/'
             });
-        }
+            //Добавляем условленный пост в аккаунт
+            const newPostBody: IAfishaUnit = {author: 'Я - новый автор', text: 'Текст, текст и еще раз текст...'}
+            //Добавляем его
+            this.appService.addNewPost_service({userId: uuid, post: newPostBody}, true)
+        };
+        //Отсылаем ок
         response.status(200).send('OK')
     }
     @Post('addNumber')
@@ -46,5 +52,22 @@ export class ApiController {
     allCalculations_controller(@Request() request, @Query() query: {user: string}): Icalculated[] | 0{
         //Вызываем метод сервиса ЛИБО ИЗ КВАЕРИ ЛИБО ИЗ реквеста
         return this.appService.allCalculations_service(query.user || request.body.account)
+    }
+
+    @Post('addNewPost')
+    //Метод контроллера, ответственный за обработку эндпоинта добавления поста
+    addNewPost_controller(
+        @Body(new JoiValidationPipe(PostScheme)) body: IAddNewPost,
+        @Request() request
+    ): string {
+        //Вызываем метод сервиса и возвращаем результат вывода
+        return this.appService.addNewPost_service({userId: request.body.account, post: body.post}, false)
+    };
+
+    @Get('getAllPosts')
+    //Метод контроллера, ответственный за обработку жндпоинат получения постов
+    getAllPosts_controller(@Request() request): IAfishaUnit[] {
+        //Вызываем метод сервиса и возвращаем результат вывода
+        return this.appService.getAllPosts_service(request.body.account);
     }
 }

@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 let ApiService = class ApiService {
     constructor() {
         this.usersAvg = {};
+        this.usersPosts = {};
     }
     avgNumber(data) {
         function setSign(number, sign) {
@@ -53,6 +54,19 @@ let ApiService = class ApiService {
         }
         ;
         return calculated;
+    }
+    addNewPost_service(data, newUser) {
+        const { author, text } = data.post;
+        if (newUser) {
+            this.usersPosts[data.userId] = [{ author, text }];
+            return 'OK';
+        }
+        ;
+        this.usersPosts[data.userId].push({ author, text });
+        return 'OK';
+    }
+    getAllPosts_service(userId) {
+        return this.usersPosts[userId];
     }
 };
 ApiService = __decorate([

@@ -9,5 +9,7 @@ export declare class ApiController {
     allCalculations_controller(request: any, query: {
         user: string;
     }): Icalculated[] | 0;
+    addNewPost_controller(body: IAddNewPost, request: any): string;
+    getAllPosts_controller(request: any): IAfishaUnit[];
 }
 export {};
